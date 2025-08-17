@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repository Analizi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .input-group {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .form-control {
+            border: none;
+            padding: 20px;
+            font-size: 18px;
+            background: #f8f9fa;
+        }
+        
+        .form-control:focus {
+            box-shadow: none;
+            background: white;
+        }
+        
+        .btn-analyze {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        .result-container {
+            padding: 40px;
+            display: none;
+        }
+        
+        .repo-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .score-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .score-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .progress {
+            height: 12px;
+            border-radius: 10px;
+            background: #e9ecef;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .overall-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .project-summary {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #28a745;
+        }
+        
+                 .improvement-recommendations {
+             background: #fff3cd;
+             border-radius: 15px;
+             padding: 25px;
+             margin-bottom: 30px;
+             border-left: 5px solid #ffc107;
+         }
+        
+                 .used-technologies {
+             background: #d1ecf1;
+             border-radius: 15px;
+             padding: 25px;
+             margin-bottom: 30px;
+             border-left: 5px solid #17a2b8;
+         }
+        
+                 .target-audience {
+             background: #e2e3e5;
+             border-radius: 15px;
+             padding: 25px;
+             margin-bottom: 30px;
+             border-left: 5px solid #6c757d;
+         }
+        
+                 .recommendation {
+             background: #e8f4fd;
+             border-radius: 15px;
+             padding: 25px;
+             margin-bottom: 30px;
+             border-left: 5px solid #17a2b8;
+         }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .cache-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="header">
+                <h1><i class="fab fa-github"></i> GitHub Repository Analizi</h1>
+                <p class="mb-0">Repository'nizi analiz edin ve detaylı rapor alın</p>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form th:action="@{/analyze}" method="post" id="analyzeForm">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       name="repoInput" 
+                                       th:value="${repoInput}"
+                                       placeholder="Repository URL veya owner/repo formatında girin (örn: facebook/react veya https://github.com/facebook/react)"
+                                       required>
+                                <button type="submit" class="btn btn-analyze">
+                                    <i class="fas fa-search"></i> Analiz Et
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Error Message -->
+                <div th:if="${errorMessage}" class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span th:text="${errorMessage}"></span>
+                </div>
+
+                <!-- Cache Info -->
+                <div th:if="${cacheInfo}" class="cache-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span th:text="${cacheInfo}"></span>
+                </div>
+
+                <!-- Clear Cache Button -->
+                <div th:if="${repository != null}" style="margin-top: 10px; text-align: center;">
+                    <form th:action="@{/analyze/clear-cache}" method="post" style="display: inline-block;">
+                        <input type="hidden" name="repoInput" th:value="${repoInput}">
+                        <button type="submit" class="btn btn-warning" style="border: none; background: #ffc107; color: #000; padding: 10px 20px;">
+                            <i class="fas fa-trash"></i> Önbelleği Temizle ve Tekrar Analiz Et
+                        </button>
+                    </form>
+                </div>
+
+
+
+                <!-- Loading -->
+                <div class="loading" id="loading">
+                    <div class="spinner mb-3"></div>
+                    <h4>Repository analiz ediliyor...</h4>
+                    <p>Bu işlem birkaç dakika sürebilir.</p>
+                </div>
+            </div>
+
+            <!-- Result Container -->
+            <div class="result-container" id="resultContainer" th:if="${repository != null and analysis != null}">
+                <!-- Repository Info -->
+                <div class="repo-info">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3 th:text="${repository.fullName}">Repository Name</h3>
+                            <p th:text="${repository.description}" class="text-muted">Description</p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <span th:text="${repository.stargazersCount}">0</span> Yıldız
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fas fa-code-branch text-info"></i>
+                                    <span th:text="${repository.forksCount}">0</span> Fork
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fas fa-code text-success"></i>
+                                    <span th:text="${repository.language}">Language</span>
+                                </div>
+                                <div class="col-md-3">
+                                    <i class="fas fa-clock text-secondary"></i>
+                                    <span th:text="${#temporals.format(repository.updatedAt, 'dd/MM/yyyy')}">Date</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <a th:href="${repository.htmlUrl}" target="_blank" class="btn btn-outline-primary">
+                                <i class="fab fa-github"></i> GitHub'da Görüntüle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Summary -->
+                <div class="project-summary" th:if="${analysis != null and analysis.projectSummary != null}">
+                    <h3><i class="fas fa-info-circle text-primary"></i> Proje Özeti</h3>
+                    <p th:text="${analysis.projectSummary}">Proje özeti burada görünecek.</p>
+                </div>
+
+                <!-- Overall Score -->
+                <div class="overall-score" th:if="${analysis != null}">
+                    <h2>Genel Puan</h2>
+                    <div class="display-4" th:text="${#numbers.formatDecimal(analysis.averageScore, 1, 1)}">75.0</div>
+                    <h4 th:text="${analysis.scoreCategory}" th:class="${analysis.scoreColorClass}">İyi</h4>
+                </div>
+
+                <!-- Score Cards -->
+                <div class="row" th:if="${analysis != null}">
+                    <div class="col-md-6">
+                                                 <div class="score-card">
+                             <h5><i class="fas fa-cogs text-primary"></i> Teknoloji Kalitesi 
+                                 <span class="badge bg-primary" style="font-size: 14px; margin-left: 10px;" th:text="${analysis.technologyQuality} + '/100'">75/100</span>
+                             </h5>
+                             <div class="progress mb-2">
+                                 <div class="progress-bar" 
+                                      th:class="${analysis.progressBarColor(analysis.technologyQuality)}"
+                                      th:style="'width: ' + ${analysis.technologyQuality} + '%'">
+                                 </div>
+                             </div>
+                            <p class="text-muted small" th:if="${analysis.technologyQualityDescription != null}" th:text="${analysis.technologyQualityDescription}">Açıklama</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                                                 <div class="score-card">
+                             <h5><i class="fas fa-graduation-cap text-success"></i> Öğrenme Değeri 
+                                 <span class="badge bg-success" style="font-size: 14px; margin-left: 10px;" th:text="${analysis.learningValue} + '/100'">80/100</span>
+                             </h5>
+                             <div class="progress mb-2">
+                                 <div class="progress-bar" 
+                                      th:class="${analysis.progressBarColor(analysis.learningValue)}"
+                                      th:style="'width: ' + ${analysis.learningValue} + '%'">
+                                 </div>
+                             </div>
+                            <p class="text-muted small" th:if="${analysis.learningValueDescription != null}" th:text="${analysis.learningValueDescription}">Açıklama</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                                                 <div class="score-card">
+                             <h5><i class="fas fa-briefcase text-warning"></i> Kariyer Gelişimi 
+                                 <span class="badge bg-warning text-dark" style="font-size: 14px; margin-left: 10px;" th:text="${analysis.careerGrowth} + '/100'">70/100</span>
+                             </h5>
+                             <div class="progress mb-2">
+                                 <div class="progress-bar" 
+                                      th:class="${analysis.progressBarColor(analysis.careerGrowth)}"
+                                      th:style="'width: ' + ${analysis.careerGrowth} + '%'">
+                                 </div>
+                             </div>
+                            <p class="text-muted small" th:if="${analysis.careerGrowthDescription != null}" th:text="${analysis.careerGrowthDescription}">Açıklama</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                                                 <div class="score-card">
+                             <h5><i class="fas fa-users text-info"></i> Topluluk Aktifliği 
+                                 <span class="badge bg-info" style="font-size: 14px; margin-left: 10px;" th:text="${analysis.communityActivity} + '/100'">85/100</span>
+                             </h5>
+                             <div class="progress mb-2">
+                                 <div class="progress-bar" 
+                                      th:class="${analysis.progressBarColor(analysis.communityActivity)}"
+                                      th:style="'width: ' + ${analysis.communityActivity} + '%'">
+                                 </div>
+                             </div>
+                            <p class="text-muted small" th:if="${analysis.communityActivityDescription != null}" th:text="${analysis.communityActivityDescription}">Açıklama</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                                                 <div class="score-card">
+                             <h5><i class="fas fa-clock text-secondary"></i> Güncellik 
+                                 <span class="badge bg-secondary" style="font-size: 14px; margin-left: 10px;" th:text="${analysis.recency} + '/100'">65/100</span>
+                             </h5>
+                             <div class="progress mb-2">
+                                 <div class="progress-bar" 
+                                      th:class="${analysis.progressBarColor(analysis.recency)}"
+                                      th:style="'width: ' + ${analysis.recency} + '%'">
+                                 </div>
+                             </div>
+                            <p class="text-muted small" th:if="${analysis.recencyDescription != null}" th:text="${analysis.recencyDescription}">Açıklama</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation -->
+                <div class="recommendation" th:if="${analysis != null}">
+                    <h5><i class="fas fa-lightbulb text-warning"></i> Genel Öneri</h5>
+                    <div th:utext="${analysis.generalRecommendationHtml}">Öneri metni burada görünecek.</div>
+                </div>
+
+                <!-- Target Audience -->
+                <div class="target-audience" th:if="${analysis != null and analysis.targetAudience != null}">
+                    <h5><i class="fas fa-users text-primary"></i> Hedef Kitle</h5>
+                    <div th:utext="${analysis.targetAudienceHtml}">Hedef kitle burada görünecek.</div>
+                </div>
+
+                <!-- Used Technologies -->
+                <div class="used-technologies" th:if="${analysis != null and analysis.usedTechnologies != null}">
+                    <h5><i class="fas fa-code text-success"></i> Kullanılan Teknolojiler</h5>
+                    <div th:utext="${analysis.usedTechnologiesHtml}">Teknolojiler burada görünecek.</div>
+                </div>
+
+                <!-- Improvement Recommendations -->
+                <div class="improvement-recommendations" th:if="${analysis != null and analysis.improvementRecommendations != null}">
+                    <h5><i class="fas fa-tools text-info"></i> Detaylı İyileştirme Önerileri</h5>
+                    <div th:utext="${analysis.improvementRecommendationsHtml}">İyileştirme önerileri burada görünecek.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sayfa yüklendiğinde loading'i gizle, sonuçları göster
+        window.onload = function() {
+            const loading = document.getElementById('loading');
+            const resultContainer = document.getElementById('resultContainer');
+            
+            if (loading && resultContainer) {
+                loading.style.display = 'none';
+                resultContainer.style.display = 'block';
+            }
+        };
+
+        // Form submit edildiğinde loading göster
+        document.getElementById('analyzeForm').addEventListener('submit', function() {
+            const loading = document.getElementById('loading');
+            const resultContainer = document.getElementById('resultContainer');
+            
+            if (loading) {
+                loading.style.display = 'block';
+            }
+            if (resultContainer) {
+                resultContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
