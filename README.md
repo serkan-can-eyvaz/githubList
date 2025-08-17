@@ -13,6 +13,7 @@ GitHubList is a modern web application that analyzes GitHub repositories with AI
 
 ## 📱 Screenshots
 <img width="2559" height="1185" alt="Ekran görüntüsü 2025-08-17 023430" src="https://github.com/user-attachments/assets/98ef5c05-f096-4d79-bd5c-f63632c2f3ed" />
+
 <img width="2557" height="1182" alt="Ekran görüntüsü 2025-08-17 023836" src="https://github.com/user-attachments/assets/fac32967-cce9-4231-aea7-d0052246c11e" />
 
 
