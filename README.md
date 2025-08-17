@@ -30,7 +30,7 @@ Repository Details Web
 
 * **🤖 AI-Powered Analysis**: Powerful repository analysis with Groq AI (Llama3-70b-8192)
 * **📊 5-Category Scoring**: Technology quality, learning value, career development, community activity, timeliness
-* **🔍 Smart README Analysis**: Detaylı dokümantasyon değerlendirmesi
+* **🔍 Smart README Analysis**: Detailed documentation evaluation
 * **⚡ Real-time GitHub API**: Detailed documentation evaluation
 * **📱 Modern UI**: TResponsive design with thymeleaf + Bootstrap
 * **🔗 Redis Caching**: Quick analysis results
