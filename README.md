@@ -276,25 +276,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-* **Repository**: https://github.com/your-username/githubList
-* **Issues**: https://github.com/your-username/githubList/issues
-* **Discussions**: https://github.com/your-username/githubList/discussions
-
-## 🚀 Roadmap
-
-* [ ] **Mobile App** - React Native mobile application
-* [ ] **Advanced Filtering** - Enhanced filtering options
-* [ ] **User Reviews** - User comments and ratings
-* [ ] **Comparison Feature** - Repository comparison
-* [ ] **Personalized Recommendations** - AI-powered recommendations
-* [ ] **Dark Mode** - Dark theme support
-* [ ] **Multi-language UI** - Internationalization
-* [ ] **Analytics Dashboard** - Advanced analytics panel
-* [ ] **API Documentation** - Swagger/OpenAPI documentation
-* [ ] **Webhook Support** - GitHub webhook integration
+https://www.linkedin.com/in/serkan-can-eyvaz/
 
 ---
 
 ⭐ **If you find this project helpful, please give it a star!**
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by serkan-can-eyvaz
