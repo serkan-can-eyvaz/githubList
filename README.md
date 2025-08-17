@@ -1,14 +1,15 @@
 # 🚀 GitHubList - AI-Powered Repository Analysis Platform
 
-> Yapay zeka destekli GitHub repository analiz sistemi ile akıllı proje değerlendirmesi
+> Intelligent project evaluation with AI-powered GitHub repository analysis system
 
-_"Bu repository öğrenmek için uygun mu?"_
+_
+"Is this repository suitable for learning?"_
 
-_"Benim  repository yetkin içeriklerden oluşuyor mu ?"_
+_"Does my repository contain authoritative content?"_
 
-Java Spring Boot Groq AI License
 
-GitHubList, GitHub repository'lerini yapay zeka destekli analiz eden, geliştiricilere proje değerlendirmesi sunan modern bir web uygulamasıdır. Groq AI teknolojisi ile repository'leri 5 farklı kategoride detaylı olarak analiz eder ve iyileştirme önerileri sunar.
+
+GitHubList is a modern web application that analyzes GitHub repositories with AI support and provides project evaluation for developers. With Groq AI technology, it analyzes repositories in detail across five different categories and offers improvement recommendations.
 
 ## 📱 Screenshots
 <img width="2559" height="1185" alt="Ekran görüntüsü 2025-08-17 023430" src="https://github.com/user-attachments/assets/98ef5c05-f096-4d79-bd5c-f63632c2f3ed" />
@@ -18,36 +19,22 @@ GitHubList, GitHub repository'lerini yapay zeka destekli analiz eden, geliştiri
 
 ### 🖥️ Desktop Experience
 
-**🌙 Dark Theme - Web Interface**  
-Dark Theme Web
-
-**☀️ Light Theme - Web Interface**  
-Light Theme Web
-
 **🔍 Analysis Results - Web Interface**  
 Analysis Results Web
 
 **📊 Repository Details - Web Interface**  
 Repository Details Web
 
-### 📱 Mobile Experience
-
-**🌙 Dark Theme - Mobile Interface**  
-Dark Theme Mobile
-
-**☀️ Light Theme - Mobile Interface**  
-Light Theme Mobile
-
 ## ✨ Features
 
-* **🤖 AI-Powered Analysis**: Groq AI (Llama3-70b-8192) ile güçlü repository analizi
-* **📊 5-Category Scoring**: Teknoloji kalitesi, öğrenme değeri, kariyer gelişimi, topluluk aktifliği, güncellik
+* **🤖 AI-Powered Analysis**: Powerful repository analysis with Groq AI (Llama3-70b-8192)
+* **📊 5-Category Scoring**: Technology quality, learning value, career development, community activity, timeliness
 * **🔍 Smart README Analysis**: Detaylı dokümantasyon değerlendirmesi
-* **⚡ Real-time GitHub API**: Gerçek zamanlı repository bilgileri
-* **📱 Modern UI**: Thymeleaf + Bootstrap ile responsive tasarım
-* **🔗 Redis Caching**: Hızlı analiz sonuçları
-* **🎯 Detailed Recommendations**: Her kategori için spesifik iyileştirme önerileri
-* **📈 Performance Metrics**: Yıldız, fork, commit tarihi analizi
+* **⚡ Real-time GitHub API**: Detailed documentation evaluation
+* **📱 Modern UI**: TResponsive design with thymeleaf + Bootstrap
+* **🔗 Redis Caching**: Quick analysis results
+* **🎯 Detailed Recommendations**: Specific improvement suggestions for each category
+* **📈 Performance Metrics**: Star, fork, commit date analysis
 
 ## 🛠️ Tech Stack
 
